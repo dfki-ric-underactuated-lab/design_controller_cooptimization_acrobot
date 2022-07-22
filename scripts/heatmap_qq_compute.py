@@ -9,11 +9,11 @@ sys.path.append("../src")
 from coop.obj_fcts import caprr_coopt_interface
 
 
-filename = 'najafi_vols.pickle'
+filename = 'najafi_vols_qq.pickle'
 
-N_PROC = 3
-evals = 10
-n = 3
+N_PROC = 2
+evals = 100000
+n = 32
 
 m1 = 0.608
 m2 = 2.205058149850632754e-01

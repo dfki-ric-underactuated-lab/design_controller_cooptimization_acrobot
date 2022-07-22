@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 import pickle
 
 load_dir = "../results/myresults"
-load_filename = 'najafi_vols.pickle'
+load_filename = 'najafi_vols_qq.pickle'
 load_file = os.path.join(load_dir, load_filename)
 
 save_filename = "qq_heatmap.pdf"
 save_file = os.path.join(load_dir, save_filename)
 
-mark = [0.15, 2.08]
-
+mark = [0.4, 0.2]
 
 infile = open(load_file, 'rb')
 results = pickle.load(infile, encoding='bytes')
