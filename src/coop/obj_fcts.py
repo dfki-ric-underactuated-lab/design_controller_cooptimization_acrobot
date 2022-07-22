@@ -4,7 +4,7 @@ from .acrobot.controller.lqr.lqr_controller import LQRController
 from .acrobot.model.symbolic_plant import SymbolicDoublePendulum
 from .acrobot.simulation.simulation import Simulator
 from .ellipsoid import quadForm, sampleFromEllipsoid, volEllipsoid
-from .roa_estimation import probTIROA
+from .roa_estimation import probTIROA, bisect_and_verify
 
 # TODO: interface for combined optimization is defined 2 times
 
@@ -374,4 +374,3 @@ class caprr_coopt_interface:
 
     # def set_lqr_params(self,Q,R):
     #     pass
-
