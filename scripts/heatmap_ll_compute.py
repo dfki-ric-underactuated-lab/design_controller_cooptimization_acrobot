@@ -45,10 +45,11 @@ caprr_najafi = caprr_coopt_interface(
     najafi_evals=evals, estimate_clbk=None)
 
 
-def roa(roa_interface, m2, l1, l2, idx1, idx2, save_dir):
+def roa(roa_interface, m2, l1, l2, idx1, idx2, array_size, array):
     vol = roa_interface.design_opt_obj([m2, l1, l2])
-    np.savetxt(os.path.join(save_dir, "roa_" +
-               str(idx1).zfill(2)+"_"+str(idx2).zfill(2)), [vol])
+    # np.savetxt(os.path.join(save_dir, "roa_" +
+    #            str(idx1).zfill(2)+"_"+str(idx2).zfill(2)), [vol])
+    array[idx1*array_size[1]+idx2] = vol
 
 
 data_dir = "parallel_data"
@@ -75,6 +76,7 @@ if len(cc) > 0:
 
 manager = multiprocessing.Manager()
 jobs = []
+vol_array = multiprocessing.Array('d', [0]*len(l1Vals)*len(l2Vals))
 for c in comp_list2:
     for cc in c:
         p = multiprocessing.Process(target=roa, args=(caprr_najafi,
@@ -83,7 +85,8 @@ for c in comp_list2:
                                                       cc[1],
                                                       cc[2],
                                                       cc[3],
-                                                      data_dir))
+                                                      [len(l1Vals), len(l2Vals)],
+                                                      vol_array))
         jobs.append(p)
         p.start()
     for proc in jobs:
@@ -92,8 +95,9 @@ for c in comp_list2:
 prob_vols = np.zeros((len(l1Vals), len(l2Vals)))
 for idx1, q1 in enumerate(l1Vals):
     for idx2, q2 in enumerate(l2Vals):
-        prob_vols[idx1][idx2] = -np.loadtxt(os.path.join(
-            data_dir, "roa_"+str(idx1).zfill(2)+"_"+str(idx2).zfill(2)))
+        #prob_vols[idx1][idx2] = -np.loadtxt(os.path.join(
+        #    data_dir, "roa_"+str(idx1).zfill(2)+"_"+str(idx2).zfill(2)))
+        prob_vols[idx1][idx2] = vol_array[idx1*len(l2Vals)+idx2]
 
 results = {"prob_vols": prob_vols,
            "yticks": l1Vals,
