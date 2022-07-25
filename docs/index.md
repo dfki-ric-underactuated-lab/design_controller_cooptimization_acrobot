@@ -20,7 +20,7 @@ In this work we propose a novel a novel approach to co-optimzation of design and
 The goal of this optimization is maximizing the Region of attraction (ROA) of a desired state that is associated to a fixed point of the closed loop dynamics.
 For a first case study, we consider a scenario that involves stabilizing an acrobot at its unstable upright posture using infinite horizon LQR control.
 
-![Shared optimality as a result of offline trajectory optimization, online stabilization and design optimization. This work focuses on the interplay of stabilization and design optimization.](static/figures/motivation.png){width=350px style="display: block; margin: auto; padding: 20px;" }
+![Shared optimality as a result of offline trajectory optimization, online stabilization and design optimization. This work focuses on the interplay of stabilization and design optimization.](static/figures/motivation.png){width=550px style="display: block; margin: auto; padding: 20px;" }
 
 ## Methodology
 We employ two black box optimization algorithms, namely *CMA-ES* and *Nelder-Mead* to maximize the volume of the ROA, which is estimated using a probabilistic method based on najafi. 
