@@ -1,24 +1,25 @@
 import sys
 import pickle
-import numpy as np
 import os
-import shutil
 import multiprocessing
+import numpy as np
 
 sys.path.append("../src")
 from coop.obj_fcts import caprr_coopt_interface
 
 
-filename = 'najafi_vols_ll.pickle'
+filename = 'heatmap_l1l2.pickle'
 
 N_PROC = 2
 evals = 100000
 n = 32
 
 m1 = 0.608
-m2 = 0.2
-l1 = 0.2
-l2 = 0.4
+m2 = 0.63
+l1 = 0.3
+l2 = 0.2
+R_init = np.diag((1.0, 1.0))
+Q_init = np.diag((1.0, 1.0, 1.0, 1.0))
 
 
 save_dir = os.path.join("..", "results", "myresults")
@@ -37,8 +38,6 @@ design_params = {
     "I": [m1*l1**2, m2*l2**2],
     "tau_max": [0.0, 5.0],
 }
-R_init = np.diag((0.94, 0.94))
-Q_init = np.diag((1.0, 1.0, 0.99, 0.99))
 
 caprr_najafi = caprr_coopt_interface(
     design_params, Q_init, R_init, backend="najafi",
@@ -51,10 +50,6 @@ def roa(roa_interface, m2, l1, l2, idx1, idx2, array_size, array):
     #            str(idx1).zfill(2)+"_"+str(idx2).zfill(2)), [vol])
     array[idx1*array_size[1]+idx2] = vol
 
-
-data_dir = "parallel_data"
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
 
 l1Vals = np.linspace(0.2, 0.4, n)
 l2Vals = np.linspace(0.2, 0.4, n)
@@ -74,10 +69,10 @@ for i, c in enumerate(comp_list):
 if len(cc) > 0:
     comp_list2.append(cc)
 
-manager = multiprocessing.Manager()
-jobs = []
 vol_array = multiprocessing.Array('d', [0]*len(l1Vals)*len(l2Vals))
 for c in comp_list2:
+    manager = multiprocessing.Manager()
+    jobs = []
     for cc in c:
         p = multiprocessing.Process(target=roa, args=(caprr_najafi,
                                                       m2,
@@ -95,8 +90,6 @@ for c in comp_list2:
 prob_vols = np.zeros((len(l1Vals), len(l2Vals)))
 for idx1, q1 in enumerate(l1Vals):
     for idx2, q2 in enumerate(l2Vals):
-        #prob_vols[idx1][idx2] = -np.loadtxt(os.path.join(
-        #    data_dir, "roa_"+str(idx1).zfill(2)+"_"+str(idx2).zfill(2)))
         prob_vols[idx1][idx2] = vol_array[idx1*len(l2Vals)+idx2]
 
 results = {"prob_vols": prob_vols,
@@ -104,8 +97,5 @@ results = {"prob_vols": prob_vols,
            "xticks": l2Vals}
 
 outfile = open(save_file, 'wb')
-# pickle.dump(prob_vols, outfile)
 pickle.dump(results, outfile)
 outfile.close()
-
-shutil.rmtree(data_dir)

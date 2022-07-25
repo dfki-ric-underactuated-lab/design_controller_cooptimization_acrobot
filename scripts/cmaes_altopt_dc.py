@@ -1,6 +1,5 @@
 import sys
 import os
-from datetime import datetime
 
 sys.path.append("../src")
 from coop.roa_paropt import roa_alternate_opt
@@ -18,9 +17,7 @@ najafi_evals = 100000
 robot = "acrobot"
 num_proc = 0
 
-
-timestamp = datetime.today().strftime("%Y%m%d-%H%M%S")
-save_dir = os.path.join("data", robot, "lqr", "roa_altopt", timestamp+"dc")
+save_dir = os.path.join("../results", "myresults", "cmaes", "design_controller")
 
 best_par = roa_alternate_opt(init_pars=init_pars,
                              par_prefactors=par_prefactors,

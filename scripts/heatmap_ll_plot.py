@@ -11,7 +11,7 @@ save_filename = "ll_heatmap.pdf"
 save_file = os.path.join(load_dir, save_filename)
 
 
-mark = [0.4, 0.2]
+mark = [0.39, 0.205]
 
 infile = open(load_file, 'rb')
 results = pickle.load(infile, encoding='bytes')
@@ -31,7 +31,7 @@ plt.imshow(prob_vols, cmap='plasma', extent=[np.min(xticks), np.max(
     xticks), np.min(yticks), np.max(yticks)], origin="lower")
 plt.colorbar(shrink=0.8)
 plt.scatter(mark[0], mark[1], s=200, color="green")
-plt.text(mark[0]-0.02, mark[1]+0.01, "1", color="green")
+plt.text(mark[0]-0.01, mark[1]+0.01, "1", color="green")
 plt.xlim(0.2, 0.4)
 plt.xticks([0.2, 0.25, 0.3, 0.35, 0.4])
 plt.xlabel("$l_2$ in $m$")
