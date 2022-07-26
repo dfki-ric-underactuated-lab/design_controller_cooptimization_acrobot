@@ -1,0 +1,93 @@
+bounds:
+- - 0.1
+  - 10
+- - 0.1
+  - 10
+- - 0.1
+  - 1
+- - 0.1
+  - 1
+- - 0.1
+  - 1
+- - 0.1
+  - 1
+- - 0.2
+  - 0.4
+- - 0.2
+  - 0.4
+com1: 0.3
+com2: 0.2
+coulomb_friction1: 0.0
+coulomb_friction2: 0.0
+damping1: 0.0
+damping2: 0.0
+goal_pos1: 3.141592653589793
+goal_pos2: 0
+goal_vel1: 0
+goal_vel2: 0
+gravity: 9.81
+inertia1: 0.05472
+inertia2: 0.025200000000000004
+init_pars:
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - &id001 !!python/object/apply:numpy.dtype
+    args:
+    - f8
+    - false
+    - true
+    state: !!python/tuple
+    - 3
+    - <
+    - null
+    - null
+    - null
+    - -1
+    - -1
+    - 0
+  - !!binary |
+    RhdddNFFtz8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    RhdddNFFtz8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAAAA8D8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAAAA8D8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAAAA8D8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    gy3Ygi3Y4j8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    /v//////3z8=
+- !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAAAAAAA=
+length1: 0.3
+length2: 0.2
+mass1: 0.608
+mass2: 0.63
+maxfevals: 1000
+par_prefactors:
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+popsize_factor: 4
+torque_limit1: 0.0
+torque_limit2: 5.0

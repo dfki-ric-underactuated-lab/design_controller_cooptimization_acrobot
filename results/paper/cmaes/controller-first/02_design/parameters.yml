@@ -1,0 +1,44 @@
+Q1: 0.10683852040748497
+Q2: 7.99928942612773
+Q3: 0.18692845480119674
+Q4: 0.14953787473052849
+R: 0.740225567658953
+bounds:
+- - 0.1
+  - 1
+- - 0.2
+  - 0.4
+- - 0.2
+  - 0.4
+com1: 0.3
+com2: 0.2
+coulomb_friction1: 0.0
+coulomb_friction2: 0.0
+damping1: 0.0
+damping2: 0.0
+goal_pos1: 3.141592653589793
+goal_pos2: 0
+goal_vel1: 0
+goal_vel2: 0
+gravity: 9.81
+inertia1: 0.05472
+inertia2: 0.025200000000000004
+init_pars:
+- 0.63
+- 0.3
+- 0.2
+length1: 0.3
+length2: 0.2
+mass1: 0.608
+mass2: 0.63
+maxfevals: 500
+najafi_evals: 100000
+optimization: design
+par_prefactors:
+- 1.0
+- 1.0
+- 1.0
+popsize_factor: 4
+roa_backend: najafi
+torque_limit1: 0.0
+torque_limit2: 5.0
