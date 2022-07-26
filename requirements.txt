@@ -1,0 +1,6 @@
+matplotlib
+pyyaml
+sympy
+scipy
+cma
+drake

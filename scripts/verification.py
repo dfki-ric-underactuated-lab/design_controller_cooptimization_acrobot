@@ -13,7 +13,7 @@ calculation = True
 plotting = True
 N_PROC = 2
 
-data_path = "../results/paper/cmaes/design-first/"
+data_path = "../results/paper/cmaes/design-first"
 
 filename = os.path.join(data_path, 'roa_verification_test.pickle')
 
@@ -22,7 +22,7 @@ cpar = [2.07884366, 0.15380351, 0.98670823, 0.99673571, 0.61940116]
 
 q1_delta = 0.5
 q2_delta = 1.5
-n = 4
+n = 100
 
 q1Vals = np.linspace(np.pi-q1_delta, np.pi+q1_delta, n)
 q2Vals = np.linspace(-q2_delta, q2_delta, n)

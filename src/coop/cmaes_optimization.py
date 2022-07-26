@@ -30,8 +30,6 @@ def cmaes_controller_opt(model_pars=[0.63, 0.3, 0.2],
     com = [length[0], length[1]]
     damping = [0.0, 0.0]
     cfric = [0., 0.]
-    # damping = [0.081, 0.0]
-    # cfric = [0.093, 0.186]
     gravity = 9.81
     inertia = [mass[0]*length[0]**2.0, mass[1]*length[1]**2.0]
     if robot == "acrobot":
@@ -122,29 +120,6 @@ def cmaes_controller_opt(model_pars=[0.63, 0.3, 0.2],
                              robot=robot,
                              save_dir=save_dir,
                              plots=plots)
-
-    # best_Q = np.diag((best_par[0], best_par[1], best_par[2], best_par[3]))
-    # best_R = np.diag((best_par[4], best_par[4]))
-
-    # design_params = {"m": mass,
-    #                  "l": length,
-    #                  "lc": com,
-    #                  "b": damping,
-    #                  "fc": cfric,
-    #                  "g": gravity,
-    #                  "I": inertia,
-    #                  "tau_max": torque_limit}
-
-    # roa_calc = caprr_coopt_interface(design_params=design_params,
-    #                                  Q=best_Q,
-    #                                  R=best_R,
-    #                                  backend=roa_backend)
-    # roa_calc._update_lqr(Q=best_Q, R=best_R)
-    # vol, rho_f, S = roa_calc._estimate()
-
-    # np.savetxt(os.path.join(save_dir, "rho"), [rho_f])
-    # np.savetxt(os.path.join(save_dir, "vol"), [vol])
-    # # np.savetxt(os.path.join(save_dir, "rhohist"), rhoHist)
 
     if plots:
 
@@ -284,26 +259,6 @@ def cmaes_design_opt(lqr_pars=[1., 1., 1., 1., 1.],
                              save_dir=save_dir,
                              plots=plots)
 
-    # design_params = {"m": [mass[0], best_par[0]],
-    #                  "l": [best_par[1], best_par[2]],
-    #                  "lc": [best_par[1], best_par[2]],
-    #                  "b": damping,
-    #                  "fc": cfric,
-    #                  "g": gravity,
-    #                  "I": [mass[0]*best_par[1]**2, best_par[0]*best_par[2]**2],
-    #                  "tau_max": torque_limit}
-
-    # roa_calc = caprr_coopt_interface(design_params=design_params,
-    #                                  Q=Q,
-    #                                  R=R,
-    #                                  backend=roa_backend)
-    # roa_calc._update_lqr(Q=Q, R=R)
-    # vol, rho_f, S = roa_calc._estimate()
-
-    # np.savetxt(os.path.join(save_dir, "rho"), [rho_f])
-    # np.savetxt(os.path.join(save_dir, "vol"), [vol])
-    # # np.savetxt(os.path.join(save_dir, "rhohist"), rhoHist)
-
     if plots:
         plot_cma_results(data_path=os.path.join(save_dir, "outcmaes"),
                          sign=-1.,
@@ -312,7 +267,6 @@ def cmaes_design_opt(lqr_pars=[1., 1., 1., 1., 1.],
         plotEllipse(goal[0], goal[1], 0, 1, rho_f, S,
                     save_to=os.path.join(save_dir, "roaplot"),
                     show=False)
-
 
     return best_par
 
@@ -378,7 +332,24 @@ def cmaes_alternate_opt(init_pars=[1., 1., 1., 1., 1., 0.63, 0.3, 0.2],
     best_par = [c_par[0], c_par[1], c_par[2], c_par[3], c_par[4],
                 m_par[0], m_par[1], m_par[2]]
 
+    # recalculate the roa for the best parameters and save plot
+    vol, rho_f, S = calc_roa(c_par=c_par,
+                             m_par=m_par,
+                             roa_backend=roa_backend,
+                             najafi_evals=najafi_evals,
+                             robot=robot,
+                             save_dir=save_dir,
+                             plots=plots)
+
     if plots:
+        plot_cma_results(data_path=os.path.join(save_dir, "outcmaes"),
+                         sign=-1.,
+                         save_to=os.path.join(save_dir, "history"),
+                         show=False)
+        goal = [np.pi, 0, 0, 0]
+        plotEllipse(goal[0], goal[1], 0, 1, rho_f, S,
+                    save_to=os.path.join(save_dir, "roaplot"),
+                    show=False)
         plot_cma_altopt_results(data_path=save_dir,
                                 save_to=os.path.join(save_dir, "history"),
                                 show=False)

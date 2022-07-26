@@ -1,6 +1,5 @@
 import cma
 from cma.fitness_transformations import EvalParallel2
-from scipy.optimize import minimize
 
 
 def cma_par_optimization(loss_func, init_pars, bounds,
@@ -38,19 +37,3 @@ def cma_par_optimization(loss_func, init_pars, bounds,
         es.optimize(loss_func)
 
     return es.result.xbest
-
-
-def scipy_par_optimization(loss_func,
-                           init_pars,
-                           bounds,
-                           method="Nelder-Mead",
-                           maxfevals=10000):
-
-    res = minimize(fun=loss_func,
-                   x0=init_pars,
-                   method=method,
-                   bounds=bounds,
-                   options={"maxiter": maxfevals,
-                            "disp": True})
-
-    return res.x

@@ -1,5 +1,6 @@
 import numpy as np
-from pydrake.all import MathematicalProgram, Solve, Variables
+from pydrake.solvers.mathematicalprogram import MathematicalProgram, Solve
+from pydrake.symbolic import Variables
 import pydrake.symbolic as sym
 
 from .ellipsoid import quadForm, sampleFromEllipsoid
