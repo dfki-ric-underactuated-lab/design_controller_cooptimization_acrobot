@@ -13,7 +13,8 @@ def calc_roa(c_par=[1., 1., 1., 1., 1.],
              save_dir="data/",
              plots=False):
 
-    os.makedirs(save_dir)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
     mass = [0.608, m_par[0]]
     length = [m_par[1], m_par[2]]
@@ -52,14 +53,15 @@ def calc_roa(c_par=[1., 1., 1., 1., 1.],
     np.savetxt(os.path.join(save_dir, "rho"), [rho_f])
     np.savetxt(os.path.join(save_dir, "vol"), [vol])
     # np.savetxt(os.path.join(save_dir, "rhohist"), rhoHist)
+    np.savetxt(os.path.join(save_dir, "Smatrix"), S)
 
     # if plots:
     #     plotEllipse(goal[0], goal[1], 0, 1, rho_f, S,
     #                 save_to=os.path.join(save_dir, "roaplot"),
     #                 show=False)
 
-    np.savetxt(os.path.join(save_dir, "controller_par.csv"),
-               [Q[0, 0], Q[1, 1], Q[2, 2], Q[3, 3], R[0, 0]])
+    np.savetxt(os.path.join(save_dir, "controller_par.csv"), c_par)
+    np.savetxt(os.path.join(save_dir, "design_par.csv"), m_par)
 
     par_dict = {"mass1": mass[0],
                 "mass2": float(mass[1]),
@@ -89,7 +91,7 @@ def calc_roa(c_par=[1., 1., 1., 1., 1.],
                 "najafi_evaluations": najafi_evals,
                 }
 
-    with open(os.path.join(save_dir, "parameters.yml"), 'w') as f:
+    with open(os.path.join(save_dir, "roa_calc_parameters.yml"), 'w') as f:
         yaml.dump(par_dict, f)
 
-    return vol
+    return vol, rho_f, S

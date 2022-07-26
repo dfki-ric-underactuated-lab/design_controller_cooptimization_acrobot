@@ -2,36 +2,9 @@ import numpy as np
 
 from .acrobot.controller.lqr.lqr_controller import LQRController
 from .acrobot.model.symbolic_plant import SymbolicDoublePendulum
-from .acrobot.simulation.simulation import Simulator
 from .ellipsoid import quadForm, sampleFromEllipsoid, volEllipsoid
 from .roa_estimation import probTIROA, bisect_and_verify
-
-# TODO: interface for combined optimization is defined 2 times
-
-
-class caprr_wrapper:
-    def __init__(self, p, c, tf=5, dt=0.01):
-        self.tf = tf
-        self.dt = dt
-        self.sim = Simulator(plant=p)
-        self.controller = c
-
-    def sim_callback(self, x0):
-        """
-        Callback that is passed to the probabilitic RoA estimation class
-        """
-        t, x, tau = self.sim.simulate(
-                t0=0.0,
-                x0=x0,
-                tf=self.tf,
-                dt=self.dt,
-                controller=self.controller,
-                integrator="runge_kutta")
-
-        if np.isnan(x[-1]).all():
-            return False
-        else:
-            return True
+from .check import lqr_check_ctg
 
 
 def najafi(plant, controller, S, n):
@@ -307,7 +280,7 @@ class caprr_coopt_interface:
                        torque_limit=self.design_params["tau_max"])
 
             if self.backend == "prob":
-                eminem = caprr_wrapper(plant, self.controller)
+                eminem = lqr_check_ctg(plant, self.controller)
                 conf = {"x0Star": np.array([np.pi, 0.0, 0.0, 0.0]),
                         "S": self.S,
                         "xBar0Max": np.array([+0.5, +0.0, 0.0, 0.0]),
@@ -374,3 +347,30 @@ class caprr_coopt_interface:
 
     # def set_lqr_params(self,Q,R):
     #     pass
+
+
+class logger:
+    def __init__(self):
+        self.Q_log = []
+        self.R_log = []
+        self.m2_log = []
+        self.l1_log = []
+        self.l2_log = []
+        self.vol_log = []
+
+    def log_and_print_clbk(self, design_params, rho_f, vol, Q, R):
+        print("design params: ")
+        print(design_params)
+        print("Q:")
+        print(Q)
+        print("R")
+        print(R)
+        print("rho final: "+str(rho_f))
+        print("volume final: "+str(vol))
+        print("")
+        self.Q_log.append(Q)
+        self.R_log.append(R)
+        self.m2_log.append(design_params["m"][1])
+        self.l1_log.append(design_params["l"][0])
+        self.l2_log.append(design_params["l"][1])
+        self.vol_log.append(vol)

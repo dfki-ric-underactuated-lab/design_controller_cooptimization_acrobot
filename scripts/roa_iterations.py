@@ -12,9 +12,9 @@ m_par = [0.1, 0.2, 0.4]
 
 roa_backend = "prob"
 robot = "acrobot"
-save_dir = "data/roa_iter_analysis/"
+save_dir = "../results/other/roa_iter_analysis/"
 
-evals = [10, 100, 1000]
+evals = [10, 100, 1000, 10000, 100000, 1000000]
 vols = []
 
 reps = 2
@@ -26,13 +26,13 @@ for e in evals:
         print(".")
         sd = os.path.join(save_dir, "iter"+str(e), str(r).zfill(2))
 
-        vol = calc_roa(c_par=c_par,
-                       m_par=m_par,
-                       roa_backend=roa_backend,
-                       najafi_evals=e,
-                       robot=robot,
-                       save_dir=sd,
-                       plots=False)
+        vol, rho_f, S = calc_roa(c_par=c_par,
+                                 m_par=m_par,
+                                 roa_backend=roa_backend,
+                                 najafi_evals=e,
+                                 robot=robot,
+                                 save_dir=sd,
+                                 plots=False)
         rep_vols.append(vol)
     vols.append(np.mean(rep_vols))
 

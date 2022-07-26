@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.special import gamma
+import matplotlib.pyplot as plt
+from matplotlib import patches
 
 
 def directSphere(d, r_i=0, r_o=1):
@@ -62,3 +64,68 @@ def volEllipsoid(rho, M):
     # Volume of Ellipse
     volE = volC/detA
     return volE
+
+
+"""
+Visualization functions used for RoA estimation
+"""
+
+
+def getEllipseParamsFromQuad(s0Idx, s1Idx, rho, S):
+    """
+    Returns ellipses in the plane defined by the states matching the indices
+    s0Idx and s1Idx for funnel plotting.
+    """
+
+    ellipse_mat = np.array([[S[s0Idx][s0Idx], S[s0Idx][s1Idx]],
+                            [S[s1Idx][s0Idx], S[s1Idx][s1Idx]]])*(1/rho)
+
+    # eigenvalue decomposition to get the axes
+    w, v = np.linalg.eigh(ellipse_mat)
+
+    try:
+        # let the smaller eigenvalue define the width (major axis*2!)
+        width = 2/float(np.sqrt(w[0]))
+        height = 2/float(np.sqrt(w[1]))
+        # the angle of the ellipse is defined by the eigenvector assigned to
+        # the smallest eigenvalue (because this defines the major axis (width
+        # of the ellipse))
+        angle = np.rad2deg(np.arctan2(v[:, 0][1], v[:, 0][0]))
+
+    except:
+        print("paramters do not represent an ellipse.")
+
+    return width, height, angle
+
+
+def getEllipsePatch(x0, x1, s0Idx, s1Idx, rho, S):
+    """
+    just return the patches object. I.e. for more involved plots...
+    x0 and x1 -> centerpoint
+    """
+    w, h, a = getEllipseParamsFromQuad(s0Idx, s1Idx, rho, S)
+    return patches.Ellipse((x0, x1), w, h, a, alpha=1, ec="red", facecolor="none")
+
+
+def getEllipsePatches(x0, x1, s0Idx, s1Idx, rhoHist, S):
+    p = []
+    for rhoVal in rhoHist:
+        p.append(getEllipsePatch(x0, x1, s0Idx, s1Idx, rhoVal, S))
+
+    return p
+
+
+def plotEllipse(x0, x1, s0Idx, s1Idx, rho, S, save_to=None, show=True):
+    p = getEllipsePatch(x0, x1, s0Idx, s1Idx, rho, S)
+
+    fig, ax = plt.subplots()
+    ax.add_patch(p)
+    l = np.max([p.width, p.height])
+    ax.set_xlim(x0-l/2, x0+l/2)
+    ax.set_ylim(x1-l/2, x1+l/2)
+    ax.grid(True)
+    if not (save_to is None):
+        plt.savefig(save_to)
+    if show:
+        plt.show()
+    plt.close()

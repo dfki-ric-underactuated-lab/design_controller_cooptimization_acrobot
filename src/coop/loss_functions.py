@@ -5,12 +5,10 @@ from .obj_fcts import caprr_coopt_interface
 
 class roa_lqrpar_lossfunc():
     def __init__(self,
-                 par_prefactors=[100, 100, 100, 100, 10],
                  bounds=[[0, 1], [0, 1], [0, 1], [0, 1], [0, 1]],
                  roa_backend="sos",
                  najafi_evals=100000):
 
-        self.par_prefactors = np.asarray(par_prefactors)
         self.roa_backend = roa_backend
         self.bounds = np.asarray(bounds)
         self.najafi_evals = najafi_evals
@@ -35,7 +33,6 @@ class roa_lqrpar_lossfunc():
                               "tau_max": torque_limit}
 
     def __call__(self, pars):
-        # p = np.asarray(pars)*self.par_prefactors
         p = self.rescale_pars(pars)
 
         Q = np.diag((p[0], p[1], p[2], p[3]))
@@ -50,24 +47,20 @@ class roa_lqrpar_lossfunc():
     def rescale_pars(self, pars):
         p = np.copy(pars)
         p = self.bounds.T[0] + p*(self.bounds.T[1]-self.bounds.T[0])
-        p *= self.par_prefactors
         return p
 
     def unscale_pars(self, pars):
         p = np.copy(pars)
-        p /= self.par_prefactors
         p = (p - self.bounds.T[0]) / (self.bounds.T[1]-self.bounds.T[0])
         return p
 
 
 class roa_modelpar_lossfunc():
     def __init__(self,
-                 par_prefactors=[1., 1., 1.],
                  bounds=[[0.1, 1.0], [0.3, 1.0], [0.1, 1.0]],
                  roa_backend="sos",
                  najafi_evals=100000):
 
-        self.par_prefactors = np.asarray(par_prefactors)
         self.roa_backend = roa_backend
         self.bounds = np.asarray(bounds)
         self.najafi_evals = najafi_evals
@@ -117,8 +110,6 @@ class roa_modelpar_lossfunc():
         self.R = np.array([[u1u1_cost, u1u2_cost], [u1u2_cost, u2u2_cost]])
 
     def __call__(self, pars):
-        # p = np.asarray(pars)*self.par_prefactors
-        # p = self.bounds.T[0] + p*(self.bounds.T[1]-self.bounds.T[0])
 
         p = self.rescale_pars(pars)
 
@@ -133,28 +124,21 @@ class roa_modelpar_lossfunc():
     def rescale_pars(self, pars):
         p = np.copy(pars)
         p = self.bounds.T[0] + p*(self.bounds.T[1]-self.bounds.T[0])
-        p *= self.par_prefactors
-        # p[-1] = p[-1]*(p[-2] + 0.1)
         return p
 
     def unscale_pars(self, pars):
         p = np.copy(pars)
-
-        # p[-1] = p[-1]/(p[-2] + 0.1)
-        p /= self.par_prefactors
         p = (p - self.bounds.T[0]) / (self.bounds.T[1]-self.bounds.T[0])
         return p
 
 
 class roa_lqrandmodelpar_lossfunc():
     def __init__(self,
-                 par_prefactors=[100, 100, 100, 100, 10, 1., 1., 1.],
                  bounds=[[0., 1.], [0., 1.], [0., 1.], [0., 1.], [0., 1.],
                          [0.1, 1.0], [0.3, 1.0], [0.1, 1.0]],
                  roa_backend="sos",
                  najafi_evals=1000):
 
-        self.par_prefactors = np.asarray(par_prefactors)
         self.roa_backend = roa_backend
         self.bounds = np.asarray(bounds)
         self.najafi_evals = najafi_evals
@@ -181,9 +165,6 @@ class roa_lqrandmodelpar_lossfunc():
                               "tau_max": torque_limit}
 
     def __call__(self, pars):
-        # p = np.asarray(pars)*self.par_prefactors
-        # p = self.bounds.T[0] + p*(self.bounds.T[1]-self.bounds.T[0])
-
         p = self.rescale_pars(pars)
 
         Q = np.diag((p[0], p[1], p[2], p[3]))
@@ -201,15 +182,10 @@ class roa_lqrandmodelpar_lossfunc():
         # [0, 1] -> real values
         p = np.copy(pars)
         p = self.bounds.T[0] + p*(self.bounds.T[1]-self.bounds.T[0])
-        p *= self.par_prefactors
-        # p[-1] = p[-1]*(p[-2] + 0.1)
         return p
 
     def unscale_pars(self, pars):
         # real values -> [0, 1]
         p = np.copy(pars)
-
-        # p[-1] = p[-1]/(p[-2] + 0.1)
-        p /= self.par_prefactors
         p = (p - self.bounds.T[0]) / (self.bounds.T[1]-self.bounds.T[0])
         return p
