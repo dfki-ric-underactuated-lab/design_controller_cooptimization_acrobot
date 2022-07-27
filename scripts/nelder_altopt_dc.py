@@ -8,12 +8,12 @@ init_pars = [1., 1., 1., 1., 1., 0.63, 0.3, 0.2]
 bounds = [[0.1, 10], [0.1, 10], [0.1, 1], [0.1, 1], [0.1, 1],
           [0.1, 1], [0.2, 0.4], [0.2, 0.4]]
 maxfevals_per_opt = 100
-opt_order = ["c", "d"]
+opt_order = ["d", "c"]
 roa_backend = "najafi"
 najafi_evals = 100000
 robot = "acrobot"
 
-save_dir = os.path.join("../results", "myresults", "nelder", "controller_first")
+save_dir = os.path.join("../results", "myresults", "nelder", "design_first")
 
 best_par = nelder_alternate_opt(init_pars=init_pars,
                                 bounds=bounds,

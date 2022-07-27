@@ -9,20 +9,20 @@ sys.path.append("../src")
 from coop.ellipsoid import getEllipsePatch
 from coop.check import lqr_check_ctg_verification  # , lqr_endstate_check_epsilon
 
-calculation = True
+calculation = False
 plotting = True
 N_PROC = 2
 
 data_path = "../results/paper/cmaes/design-first"
 
-filename = os.path.join(data_path, 'roa_verification_test.pickle')
+filename = os.path.join(data_path, 'roa_verification.pickle')
 
 dpar = [0.22050581, 0.2003057, 0.39906214]
 cpar = [2.07884366, 0.15380351, 0.98670823, 0.99673571, 0.61940116]
 
 q1_delta = 0.5
 q2_delta = 1.5
-n = 100
+n = 50
 
 q1Vals = np.linspace(np.pi-q1_delta, np.pi+q1_delta, n)
 q2Vals = np.linspace(-q2_delta, q2_delta, n)
@@ -97,7 +97,7 @@ if plotting:
                 color = "green"
             else:
                 color = "red"
-            plt.plot(q1, q2, "x", color=color)
+            plt.plot(q1, q2, ".", color=color)
     p = getEllipsePatch(np.pi, 0.0, 0, 1, rho, S)
     ax.add_patch(p)
     # l = np.max([p.width, p.height])
