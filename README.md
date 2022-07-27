@@ -28,5 +28,6 @@ Maywald, Lasse & Wiebe, Felix & Kumar, Shivesh & Javadi, Mahdi & Kirchner, Frank
 <div align="center">
   <img src="docs/static/ulab.gif" style="width:250px">
   <img src="docs/static/logo.svg" style="width:312px">
+  <img src="docs/static/MRock-Logo.png" style="width:220px">
 </div>
 
