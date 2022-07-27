@@ -7,7 +7,7 @@ import multiprocessing
 
 sys.path.append("../src")
 from coop.ellipsoid import getEllipsePatch
-from coop.check import lqr_endstate_check_epsilon
+from coop.check import lqr_check_ctg_verification  # , lqr_endstate_check_epsilon
 
 calculation = True
 plotting = True
@@ -34,7 +34,7 @@ if calculation:
     comp_list = []
     for idx1, q1 in enumerate(q1Vals):
         for idx2, q2 in enumerate(q2Vals):
-            comp_list.append([idx1, idx2])
+            comp_list.append([q1, q2, idx1, idx2])
 
     comp_list2 = []
     cc = []
@@ -51,14 +51,22 @@ if calculation:
     for c in comp_list2:
         jobs = []
         for cc in c:
-            p = multiprocessing.Process(target=lqr_endstate_check_epsilon,
+            p = multiprocessing.Process(target=lqr_check_ctg_verification,
                                         args=(dpar,
                                               cpar,
-                                              [q1, q2, 0., 0.],
+                                              [cc[0], cc[1], 0., 0.],
                                               suc_dict,
-                                              cc[0],
-                                              cc[1],
-                                              0.02))
+                                              cc[2],
+                                              cc[3]))
+            # p = multiprocessing.Process(target=lqr_endstate_check_epsilon,
+            #                             args=(dpar,
+            #                                   cpar,
+            #                                   [cc[0], cc[1], 0., 0.],
+            #                                   suc_dict,
+            #                                   cc[2],
+            #                                   cc[3],
+            #                                   0.1,
+            #                                   0.1))
             jobs.append(p)
             p.start()
         for proc in jobs:
