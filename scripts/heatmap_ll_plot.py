@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import pickle
 
 load_dir = "../results/myresults"
-load_filename = 'najafi_vols_ll.pickle'
+load_filename = 'heatmap_l1l2.pickle'
 load_file = os.path.join(load_dir, load_filename)
 
-save_filename = "ll_heatmap.pdf"
+save_filename = "l1l2_heatmap.pdf"
 save_file = os.path.join(load_dir, save_filename)
 
 
