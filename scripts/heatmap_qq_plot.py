@@ -3,11 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-load_dir = "../results/myresults"
+load_dir = "../results/paper/heatmaps"
 load_filename = 'heatmap_q11q22.pickle'
 load_file = os.path.join(load_dir, load_filename)
 
-save_filename = "q11q22_heatmap.pdf"
+save_filename = "q11q22_heatmap.png"
 save_file = os.path.join(load_dir, save_filename)
 
 mark = [0.15, 2.08]

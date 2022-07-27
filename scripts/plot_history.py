@@ -37,7 +37,7 @@ cma_data_paths = ["../results/paper/cmaes/controller-first",
 cma_simul_data_path = "../results/paper/cmaes/simultaneous"
 nelder_design_first_data_path = '../results/paper/nelder-mead/design-first/2stage_design_first_logger.pickle'
 nelder_controller_first_data_path = '../results/paper/nelder-mead/controller-first/2stage_lqr_first_logger.pickle'
-save_to = "../results/paper/histories_combined.pdf"
+save_to = "../results/paper/histories_combined.png"
 
 cma_colors = ["#1900ff", "#b500a7"]
 cma_symul_color = "#de0000"

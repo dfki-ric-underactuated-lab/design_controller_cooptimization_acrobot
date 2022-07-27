@@ -3,11 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-load_dir = "../results/myresults"
+load_dir = "../results/paper/heatmaps"
 load_filename = 'heatmap_l1l2.pickle'
 load_file = os.path.join(load_dir, load_filename)
 
-save_filename = "l1l2_heatmap.pdf"
+save_filename = "l1l2_heatmap.png"
 save_file = os.path.join(load_dir, save_filename)
 
 
