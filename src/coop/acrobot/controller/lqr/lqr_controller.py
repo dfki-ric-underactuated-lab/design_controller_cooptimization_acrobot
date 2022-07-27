@@ -15,10 +15,6 @@ class LQRController():
                  inertia=[None, None],
                  torque_limit=[0.0, 1.0]):
 
-        # self.damping = np.asarray(damping)
-        # self.cfric = np.asarray(coulomb_fric)
-        # self.torque_limit = torque_limit
-
         self.mass = mass
         self.length = length
         self.com = com

@@ -71,6 +71,11 @@ for convergence.
 ### verification.py
 
 This script verifies the ROA ellipse by testing a grid of start states in the
-(q1, q1, 0, 0)-plane. The plot shows green points when the corresponding start
-state belongs to the ROA and red points if not. The projected ellipse is
-plotted alongside these points.
+(q1, qw, 0, 0)-plane with the najafi method. The plot shows green points when
+the corresponding start state belongs to the ROA and red points if not. The
+projected ellipse is plotted alongside these points.
+
+### verification\_simulation.py
+
+This scrips verifies the ROA ellipse by simuating the acrobot dynamics with
+the LQR controller from starting states sampled from within the ellipse.
