@@ -35,3 +35,19 @@ For the acrobot case study, we optimized over both link-lengths, a point mass at
 After multiple simulations using two different optimizers and different strategies, the parameters for the best performing design were found to be $l_1=0.2m$, $l_2=0.4m$, $m_2=0.22kg$, $q_{11}=2.08$, $q_{22}=0.15$, $q_{33}=0.99 = q_{44}=0.99$ and $r_{11}=0.62$. 
 For these parameters the estimated ROA is significantly larger than for the initial ones as can be seen in the figure above that also shows the objective function in different projections of the state space.
 
+## Citation
+
+Maywald, Lasse & Wiebe, Felix & Kumar, Shivesh & Javadi, Mahdi & Kirchner, Frank. (2022). Co-optimization of Acrobot Design and Controller for Increased Certifiable Stability. 10.13140/RG.2.2.36436.07043.
+
+<font size="2">
+
+    @misc{maywald2022,
+      author = {Maywald, Lasse and Wiebe, Felix and Kumar, Shivesh and Javadi, Mahdi and Kirchner, Frank},
+      year = {2022},
+      month = {07},
+      pages = {},
+      title = {Co-optimization of Acrobot Design and Controller for Increased Certifiable Stability},
+      doi = {10.13140/RG.2.2.36436.07043}
+    }
+
+</font>
