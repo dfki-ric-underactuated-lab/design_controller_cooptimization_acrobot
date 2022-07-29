@@ -7,9 +7,10 @@ authors:
   - {name: Felix Wiebe,   affiliation_key: 1, link: https://robotik.dfki-bremen.de/de/ueber-uns/mitarbeiter/fewi01.html}
   - {name: Shivesh Kumar, affiliation_key: 1, link: https://robotik.dfki-bremen.de/de/ueber-uns/mitarbeiter/shku02.html}
   - {name: Mahdi Javadi, affiliation_key: 1, link: https://robotik.dfki-bremen.de/de/ueber-uns/mitarbeiter/maja04/}
-  - {name: Frank Kirchner, affiliation_key: 1, link: https://robotik.dfki-bremen.de/de/ueber-uns/mitarbeiter/frki01.html}
+  - {name: Frank Kirchner, affiliation_key: 1 2, link: https://robotik.dfki-bremen.de/de/ueber-uns/mitarbeiter/frki01.html}
 affiliations:
   - {name: German Research Center for Artificial Intelligence, affiliation_key: 1, link: https://www.dfki.de/en/web}
+  - {name: University of Bremen, affiliation_key: 2, link: https://www.uni-bremen.de/}
 ---
 
 ## Introduction
