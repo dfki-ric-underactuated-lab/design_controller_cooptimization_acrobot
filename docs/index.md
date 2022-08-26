@@ -28,6 +28,8 @@ We employ two black box optimization algorithms, namely *CMA-ES* and *Nelder-Mea
 For this, we consider a quadratic Lyapunov function that is constructed using the optimal cost-to-go obtained by solving the LQR problem for the linearized dynamics around the upright pose of the acrobot.
 In order to reduce the dimensionality of the problem, we optimize over the physical design variables and the control variables separately.
 
+![Overview of the cooptimization methodology.](static/figures/methodology.png){style="display: block; margin: auto; padding: 20px;" }
+
 ## Case Study
 For the acrobot case study, we optimized over both link-lengths, a point mass at the end of the second link and the diagonal elements of the $\mathbf{Q}$ and $\mathbf{R}$ matrices. We intialized the optimization with $l_1=0.3m$, $l_2=0.2m$ and $m_2=0.63kg$ and identity matrices for $\mathbf{Q}$ and $\mathbf{R}$. 
 
@@ -40,15 +42,14 @@ For these parameters the estimated ROA is significantly larger than for the init
 
 Maywald, Lasse & Wiebe, Felix & Kumar, Shivesh & Javadi, Mahdi & Kirchner, Frank. (2022). Co-optimization of Acrobot Design and Controller for Increased Certifiable Stability. 10.13140/RG.2.2.36436.07043.
 
-<font size="2">
+```bibtex
+@misc{maywald2022,
+  author = {Maywald, Lasse and Wiebe, Felix and Kumar, Shivesh and Javadi, Mahdi and Kirchner, Frank},
+  year = {2022},
+  month = {07},
+  pages = {},
+  title = {Co-optimization of Acrobot Design and Controller for Increased Certifiable Stability},
+  doi = {10.13140/RG.2.2.36436.07043}
+}
 
-    @misc{maywald2022,
-      author = {Maywald, Lasse and Wiebe, Felix and Kumar, Shivesh and Javadi, Mahdi and Kirchner, Frank},
-      year = {2022},
-      month = {07},
-      pages = {},
-      title = {Co-optimization of Acrobot Design and Controller for Increased Certifiable Stability},
-      doi = {10.13140/RG.2.2.36436.07043}
-    }
-
-</font>
+```
