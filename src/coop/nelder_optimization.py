@@ -43,9 +43,14 @@ def nelder_controller_opt(
         "b": [0.0, 0.0],
         "fc": [0.0, 0.0],
         "g": 9.81,
-        "I": [m1*l1**2, m2*l2**2],
-        "tau_max": [0.0, 5.0],
-    }
+        "I": [m1*l1**2, m2*l2**2]
+            }
+
+    if robot == "acrobot":
+        design_params["tau_max"] = [0.0, 5.0]
+
+    if robot == "pendubot":
+        design_params["tau_max"] = [5.0, 0.0]
 
     Q = np.diag((1.0, 1.0, 1.0, 1.0))
     R = np.diag((1.0, 1.0))
@@ -111,9 +116,14 @@ def nelder_design_opt(
         "b": [0.0, 0.0],
         "fc": [0.0, 0.0],
         "g": 9.81,
-        "I": [m1*l1**2, m2*l2**2],
-        "tau_max": [0.0, 5.0],
+        "I": [m1*l1**2, m2*l2**2]
     }
+
+    if robot == "acrobot":
+        design_params["tau_max"] = [0.0, 5.0]
+
+    if robot == "pendubot":
+        design_params["tau_max"] = [5.0, 0.0]
 
     Q = np.diag((lqr_pars[0], lqr_pars[1], lqr_pars[2], lqr_pars[3]))
     R = np.diag((lqr_pars[4], lqr_pars[4]))
