@@ -46,7 +46,8 @@ def calc_roa(c_par=[1., 1., 1., 1., 1.],
                                      Q=Q,
                                      R=R,
                                      backend=roa_backend,
-                                     najafi_evals=najafi_evals)
+                                     najafi_evals=najafi_evals,
+                                     robot = robot)
     roa_calc._update_lqr(Q=Q, R=R)
     vol, rho_f, S = roa_calc._estimate()
 

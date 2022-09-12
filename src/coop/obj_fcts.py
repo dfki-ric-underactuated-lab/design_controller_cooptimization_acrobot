@@ -3,7 +3,7 @@ import numpy as np
 from .acrobot.controller.lqr.lqr_controller import LQRController
 from .acrobot.model.symbolic_plant import SymbolicDoublePendulum
 from .ellipsoid import quadForm, sampleFromEllipsoid, volEllipsoid
-from .roa_estimation import probTIROA, bisect_and_verify
+from .roa_estimation import probTIROA, bisect_and_verify, rho_equalityConstrained
 from .check import lqr_check_ctg
 
 
@@ -59,25 +59,32 @@ def najafi_direct(plant, controller, S, n):
 
 
 class caprr_coopt_interface:
-    def __init__(self, design_params, Q, R, backend="sos",
+    def __init__(self, design_params, Q, R, backend="sos_con",
                  log_obj_fct=False, verbose=False,
-                 estimate_clbk=None, najafi_evals=10000):
+                 estimate_clbk=None, najafi_evals=10000, robot = "acrobot"):
         """
-        object for design/parameter co-optimization.
-        helps keeping track of design parameters during cooptimization.
+        Object for design/parameter co-optimization.
+        It helps keeping track of design parameters during cooptimization.
 
         Intended usage:
-        call `design_opt_obj` within you design optimization
-
-        `mode` is either
+        call `design_opt_obj` within the design optimization 
 
         `backend` must be one of the following:
-        - `sos`:        unconstrained SOS problem. Fastest, but maybe not
-                        a good proxy for the actual dynamics
-        - `sos_con`:    sos with constraints, modelling constrained dynamics
-        - `prob`:       probabilistic simulation based
-        - `najafi`:     probabilistic evaluation of Lyapunov function only
+        - `sos`:        unconstrained SOS problem. 
+                        Fastest, but maybe not a good approximation for the actual dynamics
+        - `sos_con`:    SOS problem that models a constrained dynamics.
+                        Best trade-off between time and precision for the RoA estimation.
+        - `sos_eq`:     unconstrained SOS problem with the so called equality constrained formulation.
+                        Obtains the same result of the previous one if the closed loop dynamics is not too bad.
+                        It seems to be the slowest SOS method.
+        - `prob`(TODO):       probabilistic simulation based
+        - `najafi`:     probabilistic evaluation of Lyapunov function only.
+                        The computational time is very long for obtaining a good estimation.
+
+        `robot` must be `acrobot` or `pendubot` depending on the underactuated system that we are considering.
         """
+        # robot type
+        self.robot = robot
 
         # design params and controller gains. these are mutable
         self.design_params = design_params
@@ -94,9 +101,9 @@ class caprr_coopt_interface:
             self.verification_hyper_params = {"taylor_deg": 3,
                                               "lambda_deg": 4,
                                               "mode": 0}
-        if self.backend == "sos_con":
+        if self.backend == "sos_con" or self.backend == "sos_eq":
             self.verification_hyper_params = {"taylor_deg": 3,
-                                              "lambda_deg": 4,
+                                              "lambda_deg": 2,
                                               "mode": 2}
 
         if self.backend == "prob":
@@ -262,11 +269,22 @@ class caprr_coopt_interface:
                     self.design_params,
                     self.S,
                     self.K,
+                    self.robot,
                     self.verification_hyper_params,
                     verbose=self.verbose,
-                    rho_min=0,
-                    rho_max=3,
-                    maxiter=12)
+                    rho_min=1e-10,
+                    rho_max=5,
+                    maxiter=15)
+
+        if self.backend == "sos_eq":
+            rho_f = rho_equalityConstrained(
+                    self.design_params,
+                    self.S,
+                    self.K,
+                    self.robot,
+                    self.verification_hyper_params["taylor_deg"],
+                    self.verification_hyper_params["lambda_deg"],
+                    verbose=self.verbose)
 
         if self.backend == "prob" or self.backend == "najafi":
             plant = SymbolicDoublePendulum(
