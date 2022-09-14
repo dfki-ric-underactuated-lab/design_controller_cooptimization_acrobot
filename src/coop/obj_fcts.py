@@ -101,9 +101,13 @@ class caprr_coopt_interface:
             self.verification_hyper_params = {"taylor_deg": 3,
                                               "lambda_deg": 4,
                                               "mode": 0}
-        if self.backend == "sos_con" or self.backend == "sos_eq":
+        if self.backend == "sos_con":
             self.verification_hyper_params = {"taylor_deg": 3,
                                               "lambda_deg": 2,
+                                              "mode": 2}
+        if self.backend == "sos_eq":
+            self.verification_hyper_params = {"taylor_deg": 3,
+                                              "lambda_deg": 3,
                                               "mode": 2}
 
         if self.backend == "prob":

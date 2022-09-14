@@ -403,7 +403,7 @@ def rho_equalityConstrained(params, S, K, robot, taylor_deg=3,
     lambda_b = prog.NewFreePolynomial(Variables(x_bar), lambda_deg).ToExpression()
 
     # Completely unconstrained dynamics
-    prog.AddSosConstraint(((x_bar.T).dot(x_bar))*(V - rho) + lambda_b*(Vdot))
+    prog.AddSosConstraint(((x_bar.T).dot(x_bar)**2)*(V - rho) + lambda_b*(Vdot))
 
     # Problem solution
     result = Solve(prog)
