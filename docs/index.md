@@ -13,6 +13,8 @@ affiliations:
   - {name: University of Bremen, affiliation_key: 2, link: https://www.uni-bremen.de/}
 ---
 
+![Presentation at IROS 2022, Kyoto, Japan](static/IROS22_1444.mp4){height=400}
+
 ## Introduction
 Recent research on control of walking robots focuses on the study of undercatuated systems, where taking into account the systems passive dynamics is required to achieve truly dynamic and energy efficient behaviours. 
 Many approaches to controlling such systems incorporate offline trajectory optimization and stabilization using online optimal control.
